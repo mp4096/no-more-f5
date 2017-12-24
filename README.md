@@ -1,5 +1,7 @@
 # No more F5!
 
+[![Build Status](https://travis-ci.org/mp4096/no-more-f5.svg?branch=master)](https://travis-ci.org/mp4096/no-more-f5)
+
 I procrastinate a lot by reloading webpages, looking for new content.
 However, I don't like being a Skinner box rat,
 so I wrote this digest generator to tame my FOMO.
