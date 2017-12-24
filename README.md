@@ -94,6 +94,13 @@ Just use something similar to your main browser.
 Ok, you should be ready to go! Create a dummy testing event
 (just use an empty dict `{}` as context) and see if you've got a digest in your inbox!
 
+### Configuring CloudWatch logs retention
+
+One more thing:
+Go to CloudWatch and configure log retention for your `no-more-f5` log group.
+Set it to something reasonable, e.g. 7 days.
+Storing a lot of logs (several GBs) might be expensive and it's just not worth it in this case.
+
 ### How much is the fish?
 
 No idea, I'll update this when I get my first monthly bill. But probably not much.
