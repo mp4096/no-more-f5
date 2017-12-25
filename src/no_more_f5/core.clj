@@ -39,13 +39,17 @@
 (defn get-title
   "Get entry title"
   [entry]
-  (str/trim-newline (str/trim (:title entry))))
+  (str/trim-newline (str/trim (:title entry)))
+  )
 
 (defn get-link
+  "Get entry link. Handle GitHub links separately."
   [entry]
   (if (.contains (:uri entry) "tag:github")
     (str "https://github.com" (:link entry))
-    (:link entry)))
+    (:link entry)
+    )
+  )
 
 (defn pretty-print-timestamp
   "Print a timestamp in a nice ISO-like format"
