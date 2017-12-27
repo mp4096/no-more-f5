@@ -21,8 +21,8 @@
     )
   )
 
-; Current date as a string
 (def today
+  "Current date as a string"
   (clj-time.format/unparse
     (clj-time.format/formatter "yyyy-MM-dd")
     (clj-time.core/now)
@@ -36,10 +36,9 @@
   (clj-time.coerce/from-date (or (:updated-date entry) (:published-date entry) (java.util.Date.)))
   )
 
-(defn get-title
+(def get-title
   "Get entry title"
-  [entry]
-  (str/trim-newline (str/trim (:title entry)))
+  (comp str/trim :title)
   )
 
 (defn get-link
@@ -60,7 +59,7 @@
 (defn pretty-print-entry
   "Pretty-print entry as HTML"
   [entry]
-  (format "<p><a href=\"%s\"><b>%s:</b> %s</a></p>"
+  (format "<p><a href=\"%s\"><b>%s:</b> %s</a></p>\r\n"
     (get-link entry)
     (pretty-print-timestamp (get-timestamp entry))
     (get-title entry)
@@ -73,10 +72,9 @@
   (clj-time.core/after? timestamp (clj-time.core/yesterday))
   )
 
-(defn fresh-entry?
+(def fresh-entry?
   "Check if an entry is within last 24 hours"
-  [entry]
-  (within-last-24h? (get-timestamp entry))
+  (comp within-last-24h? get-timestamp)
   )
 
 (defn fresh-feed?
@@ -88,10 +86,8 @@
 (defn process-feed
   "Process feed into a HTML snippet"
   [feed]
-  (str "<h2>" (:title feed) "</h2>\r\n"
-    (str/join "\r\n"
-      (map pretty-print-entry (filter fresh-entry? (:entries feed)))
-      )
+  (reduce str (str "\r\n<h2>" (:title feed) "</h2>\r\n")
+    (map pretty-print-entry (filter fresh-entry? (:entries feed)))
     )
   )
 
