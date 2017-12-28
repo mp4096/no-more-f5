@@ -4,6 +4,7 @@
   (:require [clj-time.core])
   (:require [clj-time.format])
   (:require [clojure.string :as str])
+  (:require [environ.core :refer [env]])
   (:import (com.amazonaws.services.lambda.runtime Context))
   (:import (java.net URL HttpURLConnection))
   (:gen-class :methods [^:static [handler [Object com.amazonaws.services.lambda.runtime.Context] Object]])
@@ -16,7 +17,7 @@
   (parse-feed
     (doto
       (cast HttpURLConnection (.openConnection (URL. feed)))
-      (.setRequestProperty "User-Agent" (System/getenv "USER_AGENT"))
+      (.setRequestProperty "User-Agent" (env :user-agent))
       )
     )
   )
@@ -150,15 +151,15 @@
 
 (defn -handler
   [^Object req ^Context ctx]
-  (let [body (process-feeds (str/split-lines (slurp (System/getenv "FEEDS"))))]
+  (let [body (process-feeds (str/split-lines (slurp (env :feeds))))]
     (send-mail
-      :user (System/getenv "SMTP_USER")
-      :password (System/getenv "SMTP_PASS")
-      :host (System/getenv "SMTP_SERVER")
+      :user (env :smtp-user)
+      :password (env :smtp-pass)
+      :host (env :smtp-server)
       ; FIXME: Is there a safer string to int conversion?
-      :port (read-string (System/getenv "SMTP_PORT"))
-      :from (System/getenv "EMAIL_FROM")
-      :to (System/getenv "EMAIL_TO")
+      :port (read-string (env :smtp-port))
+      :from (env :email-from)
+      :to (env :email-to)
       :subject (str "Daily digest " today)
       :content body
       )
