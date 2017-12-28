@@ -93,6 +93,9 @@ Do not use this user's credentials for the SMTP server!
 You need to specify `USER_AGENT` since some sites block scrapers without it.
 Just use something similar to your main browser.
 
+`EMAIL_TO` can contain multiple addresses, separated by commas.
+Make sure you use only verified addresses if you are still in the SES Sandbox mode.
+
 Ok, you should be ready to go! Create a dummy testing event
 (just use an empty dict `{}` as context) and see if you've got a digest in your inbox!
 
@@ -103,6 +106,28 @@ Go to CloudWatch and configure log retention for your `no-more-f5` log group.
 Set it to something reasonable, e.g. 7 days.
 Storing a lot of logs (several GBs) might be expensive and it's just not worth it in this case.
 
-### How much is the fish?
+## Local dev environment
+
+For local testing, create a `profiles.clj` file in the root repo folder.
+Add the following map to it:
+
+```clojure
+{:dev
+  {:env
+    {
+      :feeds "dev_feeds"
+      :smtp-user "..."
+      :smtp-pass "..."
+      :smtp-server "email-smtp.eu-west-1.amazonaws.com"
+      :smtp-port "587"
+      :user-agent "..."
+      :email-from "..."
+      :email-to "..."
+      }
+    }
+  }
+```
+
+## How much is the fish?
 
 No idea, I'll update this when I get my first monthly bill. But probably not much.
