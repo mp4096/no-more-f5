@@ -10,4 +10,5 @@
     ]
   :plugins [[lein-environ "1.1.0"]]
   :aot :all
+  :main no-more-f5.core
   )

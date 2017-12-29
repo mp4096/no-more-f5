@@ -165,3 +165,8 @@
       )
     )
   )
+
+(defn -main
+  [& args]
+  (-handler nil nil)
+  )

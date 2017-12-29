@@ -128,6 +128,17 @@ Add the following map to it:
   }
 ```
 
+Then just use `lein run` to run the app.
+Alternatively, you can set all required environment variables and call
+
+```sh
+$ java -cp <path_to_your_uberjar> no_more_f5.core
+```
+
+If you have your own server running 24/7, you can schedule local execution with cron.
+And of course you can use your own email account,
+just make sure to get an app token for SMTP instead of using your password.
+
 ## How much is the fish?
 
 No idea, I'll update this when I get my first monthly bill. But probably not much.
