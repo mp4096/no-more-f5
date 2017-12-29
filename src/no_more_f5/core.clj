@@ -151,7 +151,9 @@
 
 (defn -handler
   [^Object req ^Context ctx]
-  (let [body (process-feeds (str/split-lines (slurp (env :feeds))))]
+  (let [
+    body (process-feeds (filter (comp not empty?) (str/split-lines (slurp (env :feeds)))))
+    ]
     (send-mail
       :user (env :smtp-user)
       :password (env :smtp-pass)
