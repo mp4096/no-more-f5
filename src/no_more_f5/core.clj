@@ -78,10 +78,9 @@
   (comp within-last-24h? get-timestamp)
   )
 
-(defn fresh-feed?
+(def fresh-feed?
   "Check if a feed contains at least one fresh entry"
-  [feed]
-  (not (empty? (filter fresh-entry? (:entries feed))))
+  (comp not empty? (partial filter fresh-entry?) :entries)
   )
 
 (defn process-feed
