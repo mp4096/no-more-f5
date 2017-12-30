@@ -18,6 +18,21 @@
       (cast HttpURLConnection (.openConnection (URL. feed)))
       (.setRequestProperty "User-Agent" (env :user-agent)))))
 
+(defn try-parse-feed
+  "Call 'parse-feed-with-user-agent' and return a dummy map on exception"
+  [feed]
+  (try
+    (parse-feed-with-user-agent feed)
+    (catch Exception e
+      (.printStackTrace e)
+      {
+        :title (str "Failed fetching \"" feed "\"")
+        :entries [{
+                    :title (.getMessage e)
+                    :update-date (java.util.Date.)
+                    :uri ""
+                    :link ""}]})))
+
 (def today
   "Current date as a string"
   (clj-time.format/unparse
@@ -92,7 +107,7 @@
 
 (def xf-feeds
   (comp
-    (map parse-feed-with-user-agent)
+    (map try-parse-feed)
     (filter fresh-feed?)
     (map process-feed)))
 

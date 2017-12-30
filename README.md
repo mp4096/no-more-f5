@@ -6,10 +6,6 @@ I procrastinate a lot by reloading webpages, looking for new content.
 However, I don't like being a Skinner box rat,
 so I wrote this digest generator to tame my FOMO.
 
-Since this is my Clojure learning project, this program is very brittle.
-If it cannot scrape a feed (e.g. due to a 403), it crashes in an unpleasant way.
-I'm going to work on error handling in future.
-
 ## Installation
 
 ### Cloud stack
