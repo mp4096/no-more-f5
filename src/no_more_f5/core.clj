@@ -62,7 +62,10 @@
 (defn pretty-print-timestamp
   "Print a timestamp in a nice ISO-like format"
   [timestamp]
-  (clj-time.format/unparse (clj-time.format/formatter "yyyy-MM-dd, HH:mm") timestamp)
+  (clj-time.format/unparse
+    (clj-time.format/formatter "yyyy-MM-dd, HH:mm")
+    timestamp
+    )
   )
 
 (defn pretty-print-entry
