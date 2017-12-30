@@ -31,10 +31,18 @@
   )
 
 (defn get-timestamp
-  "Get an entry timestamp, take either published date or update date.
-  Fallback to 'now' if neither is available."
+  "Get an entry timestamp. Use (in descending order of priority, if not available):
+  1. update date
+  2. published date
+  3. current (program run) timestamp"
   [entry]
-  (clj-time.coerce/from-date (or (:updated-date entry) (:published-date entry) (java.util.Date.)))
+  (clj-time.coerce/from-date
+    (or
+      (:updated-date entry)
+      (:published-date entry)
+      (java.util.Date.)
+      )
+    )
   )
 
 (def get-title
