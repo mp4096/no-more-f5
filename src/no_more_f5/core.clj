@@ -92,22 +92,36 @@
   (some fresh-entry? (:entries feed))
   )
 
+(def xf-single-feed
+  (comp
+    (filter fresh-entry?)
+    (map pretty-print-entry)
+    )
+  )
+
 (defn process-feed
   "Process feed into a HTML snippet"
   [feed]
-  (reduce str (str "\r\n<h2>" (:title feed) "</h2>\r\n")
-    (map pretty-print-entry (filter fresh-entry? (:entries feed)))
+  (transduce
+    xf-single-feed
+    str
+    (str "\r\n<h2>" (:title feed) "</h2>\r\n")
+    (:entries feed)
+    )
+  )
+
+(def xf-feeds
+  (comp
+    (map parse-feed-with-user-agent)
+    (filter fresh-feed?)
+    (map process-feed)
     )
   )
 
 (defn process-feeds
   "Process all feeds into a HTML document"
   [feeds]
-  (str/join "\r\n\r\n"
-    (map process-feed
-      (filter fresh-feed? (map parse-feed-with-user-agent feeds))
-      )
-    )
+  (transduce xf-feeds str feeds)
   )
 
 (defn send-mail
