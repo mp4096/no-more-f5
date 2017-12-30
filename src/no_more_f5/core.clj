@@ -173,20 +173,20 @@
 
 (defn -handler
   [^Object req ^Context ctx]
-  (let [
-    body (process-feeds (filter (comp not empty?) (str/split-lines (slurp (env :feeds)))))
-    ]
-    (send-mail
-      :user (env :smtp-user)
-      :password (env :smtp-pass)
-      :host (env :smtp-server)
-      ; FIXME: Is there a safer string to int conversion?
-      :port (read-string (env :smtp-port))
-      :from (env :email-from)
-      :to (env :email-to)
-      :subject (str "Daily digest " today)
-      :content body
-      )
+  (send-mail
+    :user (env :smtp-user)
+    :password (env :smtp-pass)
+    :host (env :smtp-server)
+    :port (Integer. (env :smtp-port))
+    :from (env :email-from)
+    :to (env :email-to)
+    :subject (str "Daily digest " today)
+    :content (->>
+      (env :feeds)
+      slurp
+      str/split-lines
+      (filter seq)
+      process-feeds)
     )
   )
 
