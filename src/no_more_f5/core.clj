@@ -51,17 +51,6 @@
       (:published-date entry)
       (java.util.Date.))))
 
-(def get-title
-  "Get entry title"
-  (comp str/trim :title))
-
-(defn get-link
-  "Get entry link. Handle GitHub links separately."
-  [entry]
-  (if (.contains (:uri entry) "tag:github")
-    (str "https://github.com" (:link entry))
-    (:link entry)))
-
 (defn pretty-print-timestamp
   "Print a timestamp in a nice ISO-like format"
   [timestamp]
@@ -73,9 +62,9 @@
   "Pretty-print entry as HTML"
   [entry]
   (format "<p><a href=\"%s\"><b>%s:</b> %s</a></p>\r\n"
-    (get-link entry)
+    (:link entry)
     (pretty-print-timestamp (get-timestamp entry))
-    (get-title entry)))
+    ((comp str/trim :title) entry)))
 
 (defn within-last-24h?
   "Check if a timestamp is within the last 24 hours"
