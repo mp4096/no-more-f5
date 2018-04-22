@@ -6,6 +6,8 @@ I procrastinate a lot by reloading webpages, looking for new content.
 However, I don't like being a Skinner box rat,
 so I wrote this digest generator to tame my FOMO.
 
+> :warning: `no-more-f5` works only with Java 8! Java 9 is not supported.
+
 ## Installation
 
 ### Cloud stack
