@@ -75,22 +75,27 @@ Do not use this user's credentials for the SMTP server!
 1. Set handler to `no_more_f5.core::handler`
 1. Now we need to setup environment variables. Add following envvars:
 
-| Variable      | Note                                      | Example                              |
-|:--------------|:------------------------------------------|:-------------------------------------|
-| `FEEDS`       | Filename of the file with your feed URLs  | `my_feeds`                           |
-| `USER_AGENT`  | See below                                 | `Mozilla/5.0 ...`                    |
-| `SMTP_SERVER` | Address of your AWS SES SMTP server       | `email-smtp.eu-west-1.amazonaws.com` |
-| `SMTP_PORT`   | SMTP server port, check out your SES docs | `587`                                |
-| `SMTP_USER`   | Use your SES SMTP credentials here        |                                      |
-| `SMTP_PASS`   | Use your SES SMTP credentials here        |                                      |
-| `EMAIL_FROM`  | Must be verified in AWS SES               | `jane.doe@abc.com`                   |
-| `EMAIL_TO`    | All of them must be verified in AWS SES   | `jane.doe@abc.com, john.doe@abc.com` |
+| Variable              | Note                                      | Example                              |
+|:----------------------|:------------------------------------------|:-------------------------------------|
+| `FEEDS`               | Filename of the file with your feed URLs  | `my_feeds`                           |
+| `USER_AGENT`          | See below                                 | `Mozilla/5.0 ...`                    |
+| `SMTP_SERVER`         | Address of your AWS SES SMTP server       | `email-smtp.eu-west-1.amazonaws.com` |
+| `SMTP_PORT`           | SMTP server port, check out your SES docs | `587`                                |
+| `SMTP_USER`           | Use your SES SMTP credentials here        |                                      |
+| `SMTP_PASS`           | Use your SES SMTP credentials here        |                                      |
+| `EMAIL_FROM`          | Must be verified in AWS SES               | `jane.doe@abc.com`                   |
+| `EMAIL_TO`            | All of them must be verified in AWS SES   | `jane.doe@abc.com, john.doe@abc.com` |
+| `SINGLE_SITE_TIMEOUT` | Timeout for each fetching connection      | `2000`                               |
 
 You need to specify `USER_AGENT` since some sites block scrapers without it.
 Just use something similar to your main browser.
 
 `EMAIL_TO` can contain multiple addresses, separated by commas.
 Make sure you use only verified addresses if you are still in the SES Sandbox mode.
+
+`SINGLE_SITE_TIMEOUT` is helpful if some feed is unresponsive.
+Instead of timing out the whole Lambda function,
+you'll just get an exception message for the unresponsive feed.
 
 Ok, you should be ready to go! Create a dummy testing event
 (just use an empty dict `{}` as context) and see if you've got a digest in your inbox!

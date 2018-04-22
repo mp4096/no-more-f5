@@ -16,7 +16,8 @@
   (parse-feed
     (doto
       (cast HttpURLConnection (.openConnection (URL. feed)))
-      (.setRequestProperty "User-Agent" (env :user-agent)))))
+      (.setRequestProperty "User-Agent" (env :user-agent))
+      (.setConnectTimeout (Integer. (env :single-site-timeout))))))
 
 (defn try-parse-feed
   "Call 'parse-feed-with-user-agent' and return a dummy map on exception"
