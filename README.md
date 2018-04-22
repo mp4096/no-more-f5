@@ -119,6 +119,7 @@ Add the following map to it:
   {:env
     {
       :feeds "dev_feeds"
+      :single-site-timeout "2000"
       :smtp-user "..."
       :smtp-pass "..."
       :smtp-server "email-smtp.eu-west-1.amazonaws.com"
